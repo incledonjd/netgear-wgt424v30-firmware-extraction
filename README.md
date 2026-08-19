@@ -82,3 +82,55 @@ picocom -b 9600 /dev/ttyUSB0
 ![Connecting via 15200 Baud Error](photos/UART_console_15200_1.jpg)
 ![Connecting via 9600 Baud](photos/UART_console_9600.jpg)
 ![Connecting via 9600 Baud Success](photos/UART_console_9600_1.jpg)
+
+
+
+## 4. Hot-Air Chip-Off Extraction
+
+Because serial UART access was limited to a one-way logging channel, physical flash extraction was used to acquire the raw firmware image directly.
+
+### Desoldering & Pad Cleaning Process
+1. Target Package: STMicroelectronics 25P16V6P (16-pin SOIC SPI NOR Flash).
+2. Technique: Applied flux across both banks of 8 pins. Used a hot air rework station with circular airflow to heat all 16 leads evenly until solder liquified, lifted the chip vertically with tweezers to avoid damaging traces.
+3. Footprint Preparation:Cleaned remaining solder from the 16 surface-mount pads using 99% isopropyl alcohol, checking no short circuits or solder bridges remained on the PCB.
+
+![Board and Desoldered Flash Chip](photos/PXL_20260818_191444664.jpg)
+![Desoldered ST 25P16V6P Flash Chip](photos/PXL_20260818_191449314.jpg)
+![Cleaned PCB Footprint with Intact Pads](photos/PXL_20260818_201018161.jpg)
+
+---
+
+## 5. Flash Memory Acquisition (XGecu T48 & Xgpro)
+
+The extracted chip was read using an external hardware programmer to pull the complete flash memory buffer.
+
+### Hardware Programmer Interfacing
+* **Programmer:** XGecu T48 High-Speed Universal Programmer.
+* **Socket Adapter:** SOP16/SOIC-16 to DIP ZIF (Zero Insertion Force) clamshell socket adapter.
+* **Alignment:** Aligned Pin 1 (dot indicator on package) with the socket orientation markings and locked the clamshell retaining frame.
+
+![ST 25P16 Seated in T48 Clamshell Adapter](photos/PXL_20260818_200951384.jpg)
+
+### Software Readout & Acquisition
+* **Software:** Xgpro Programmer Suite.
+* **Device Selected:** `ST [ST25P16 @SOIC16]` (Memory Size: `0x200000` bytes / 2,097,152 bytes).
+* **Read Execution:** Read the entire SPI NOR flash memory array into the local software buffer and saved the raw binary dump to disk (`wgt624v3_flash_dump.bin`).
+
+![Xgpro Software Flash Readout Buffer](photos/xgpro_firmware.jpg)
+
+---
+
+## 6. Buffer Correction & Cryptographic Verification
+
+### Resolving the 272-Byte Padding Anomaly
+The raw programmer dump produced **2,097,424 bytes**, exceeding the physical 2MB hardware boundary by 272 bytes (`0x110` in hex) due to status and OTP register metadata appended to the buffer by the programmer software.
+
+The extra footer bytes were trimmed to match the exact hardware capacity (2,097,152 bytes / 2MB):
+
+```bash
+# Trim the trailing 272 bytes to create a 1:1 hardware flash image
+head -c 2097152 wgt624v3_flash_dump.bin > wgt624v3_clean.bin
+
+# Verify exact byte count
+ls -l wgt624v3_clean.bin
+# -rw-r--r-- 1 user user 2097152 Aug 18 20:15 wgt624v3_clean.bin
