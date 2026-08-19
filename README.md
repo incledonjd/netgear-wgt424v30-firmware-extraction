@@ -132,19 +132,4 @@ The extracted chip was read using an external hardware programmer to pull the co
 
 ![Xgpro Software Flash Readout Buffer](photos/xgpro_firmware.jpg)
 
----
-
-## 6. Buffer Correction & Cryptographic Verification
-
-### Resolving the 272-Byte Padding Anomaly
-The raw programmer dump produced **2,097,424 bytes**, exceeding the physical 2MB hardware boundary by 272 bytes (`0x110` in hex) due to status and OTP register metadata appended to the buffer by the programmer software.
-
-The extra footer bytes were trimmed to match the exact hardware capacity (2,097,152 bytes / 2MB):
-
-```bash
-# Trim the trailing 272 bytes to create a 1:1 hardware flash image
-head -c 2097152 wgt624v3_flash_dump.bin > wgt624v3_clean.bin
-
-# Verify exact byte count
-ls -l wgt624v3_clean.bin
-# -rw-r--r-- 1 user user 2097152 Aug 18 20:15 wgt624v3_clean.bin
+___
