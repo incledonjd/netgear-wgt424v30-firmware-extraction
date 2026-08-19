@@ -15,8 +15,8 @@ ___
 
 ## Table of Contents
 * **[Part 1: Hardware Reconnaissance & Acquisition](#part-1-hardware-reconnaissance--acquisition)**
-  * [1. Device Overview & Disassembly](#1-disassembly-process)
-  * [2. Integrated Circuit Identification](#2-integrated-circuit-ic-identification)
+  * [1. Device Overview & Disassembly](##1-disassembly)
+  * [2. Integrated Circuit Identification](##2-integrated-circuit-identification)
   * [3. UART Serial Sniffing & Baud Rate Triage](#3-uart-serial-reconnaissance--baud-rate-triage)
   * [4. Hot-Air Chip-Off & Flash Dumping](#4-hot-air-chip-off-extraction)
   * [5. Buffer Padding Correction & Hashes](#6-buffer-padding-correction--cryptographic-verification)
