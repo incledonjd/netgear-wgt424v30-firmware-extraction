@@ -1,7 +1,24 @@
 ## netgear-wgt424v30-firmware-extraction
 Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT624v3 router
 
-**Device Specifications and Overview
+## Table of Contents
+* [Device Specifications and Overview](#device-specifications-and-overview)
+* [Part 1: Device Disassembly and Testing](#part-1-device-disassembly-and-testing)
+  * [1. Disassembly](#1-disassembly)
+  * [2. Integrated Circuit Identification](#2-integrated-circuit-identification)
+  * [3. UART Serial Reconnaissance](#3-uart-serial-reconnaissance)
+    * [Step 1: Signal Probing](#step-1-signal-probing)
+    * [Step 2: Hardware Serial Interfacing](#step-2-hardware-serial-interfacing)
+    * [Step 3: Terminal Capture](#step-3-terminal-capture)
+  * [4. Hot-Air Chip-Off Extraction](#4-hot-air-chip-off-extraction)
+    * [Desoldering & Pad Cleaning Process](#desoldering--pad-cleaning-process)
+  * [5. Flash Memory Acquisition (XGecu T48 & Xgpro)](#5-flash-memory-acquisition-xgecu-t48--xgpro)
+    * [Hardware Programmer Interfacing](#hardware-programmer-interfacing)
+    * [Software Readout & Acquisition](#software-readout--acquisition)
+  
+  
+
+# Device Specifications and Overview
 * Model: Netgear WGT624v3 
 * FCC ID: PY3WGTY624V3
 * IC ID: 4054A-WGT-624V3
@@ -13,19 +30,9 @@ Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT
 
 ___
 
-## Table of Contents
-* **[Part 1: Hardware Reconnaissance & Acquisition](#part-1-hardware-reconnaissance--acquisition)**
-  * [1. Device Overview & Disassembly](##1-disassembly)
-  * [2. Integrated Circuit Identification](##2-integrated-circuit-identification)
-  * [3. UART Serial Sniffing & Baud Rate Triage](#3-uart-serial-reconnaissance--baud-rate-triage)
-  * [4. Hot-Air Chip-Off & Flash Dumping](#4-hot-air-chip-off-extraction)
-  * [5. Buffer Padding Correction & Hashes](#6-buffer-padding-correction--cryptographic-verification)
-* **[Part 2: Static Binary Analysis & Reverse Engineering](#part-2-static-binary-analysis--reverse-engineering)**
-  * [1. Binwalk Extraction & Payload Carving](#)
-  * [2. Ghidra Architecture & Memory Mapping](#)
-  * [3. Web Server Analysis & Vulnerability Research](#)
+
   
-  # Part 1: Device Dissassembly and Testing
+# Part 1: Device Dissassembly and Testing
   
 ## 1. Disassembly
 
@@ -53,13 +60,13 @@ ___
 ![Samsung RAM and Power Section](photos/chip_samsung_K4S281632F.jpg)
 
 
-##3. UART Serial Reconnaissance
+## 3. UART Serial Reconnaissance
 
 12-pin (2x6) through-hole header labeled **JP1** positioned between the RF shield and the Ethernet jacks. This multi-function header serves as the board's combined JTAG and UART diagnostic interface.
 
 ![JP1 Header Overview](photos/UART_JP1_pins.jpg)
 
-###Step 1: Signal Probing
+### Step 1: Signal Probing
 
 Using a Klein Tools MM600 digital multimeter referenced against the chassis ground plane (Pin 11), individual pins on the JP1 header were mapped:
 
@@ -72,7 +79,7 @@ Using a Klein Tools MM600 digital multimeter referenced against the chassis grou
 ![Router TX Active Line Measurement (3.267V)](photos/UART_TX.jpg)
 ![Probing Pin 9 TX vs Ground Pin 11](photos/UART_TX_1.jpg)
 
-###Step 2: Hardware Serial Interfacing
+### Step 2: Hardware Serial Interfacing
 
 Connected a CP2102 USB-to-UART bridge directly to the JP1 pin headers using Dupont jumper wires:
 * **Adapter RXD** $\rightarrow$ **JP1 Pin 9 (Router TX)**
@@ -84,7 +91,7 @@ Connected a CP2102 USB-to-UART bridge directly to the JP1 pin headers using Dupo
 
 ---
 
-###Step3: Terminal Capture
+### Step3: Terminal Capture
 
 Serial capture was performed using 'picocom' on Linux
 
