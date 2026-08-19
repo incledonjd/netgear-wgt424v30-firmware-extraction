@@ -91,7 +91,7 @@ Connected a CP2102 USB-to-UART bridge directly to the JP1 pin headers using Dupo
 
 ---
 
-### Step3: Terminal Capture
+### Step 3: Terminal Capture
 
 Serial capture was performed using 'picocom' on Linux
 
