@@ -3,7 +3,7 @@ Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT
 
 **Device Specifications and Overview
 * Model: Netgear WGT624v3 
-*FCC ID: PY3WGTY624V3
+* FCC ID: PY3WGTY624V3
 * IC ID: 4054A-WGT-624V3
 * Board Revision: U12H040 REV:2 (PCB Date Code ~2005)
 
@@ -15,10 +15,10 @@ ___
 
 ## 1. Disassembly
 
-1. Foot and Screw Removal: Peeled back the four rubber feet on the bottom of the router and removed them to expose four Torx head screws.
-2. Shell Separation: Removed all 4 screws and shell comes apart in 3 pieces with no clips.
-3. PCB: Lifted the green motherboard out of the chassis.
-4. RF Shield Removal: Carefully unclipped and removed the top metal RF sheidl cover. 
+1. Peeled back the four rubber feet on the bottom of the router and removed them to expose four Torx head screws.
+2. Removed all 4 screws and shell comes apart in 3 pieces with no clips.
+3. Lifted the green motherboard out of the chassis.
+4. Carefully unclipped and removed the top metal RF sheild cover. 
 
 ![Disassembly Step 1](photos/disassembly_1.jpg)
 ![PCB Underside](photos/disassembly_2.jpg)
