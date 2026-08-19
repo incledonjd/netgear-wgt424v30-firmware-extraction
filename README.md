@@ -94,9 +94,9 @@ Because serial UART access was limited to a one-way logging channel, physical fl
 2. Technique: Applied flux across both banks of 8 pins. Used a hot air rework station with circular airflow to heat all 16 leads evenly until solder liquified, lifted the chip vertically with tweezers to avoid damaging traces.
 3. Footprint Preparation:Cleaned remaining solder from the 16 surface-mount pads using 99% isopropyl alcohol, checking no short circuits or solder bridges remained on the PCB.
 
-![Board and Desoldered Flash Chip](photos/PXL_20260818_191444664.jpg)
-![Desoldered ST 25P16V6P Flash Chip](photos/PXL_20260818_191449314.jpg)
-![Cleaned PCB Footprint with Intact Pads](photos/PXL_20260818_201018161.jpg)
+![Board and Desoldered Flash Chip](photos/SOIC16_removed_1.jpg)
+![Desoldered ST 25P16V6P Flash Chip](photos/SOIC16_removed_2.jpg)
+![Cleaned PCB Footprint with Intact Pads](photos/SOIC16_removed.jpg)
 
 ---
 
@@ -109,7 +109,7 @@ The extracted chip was read using an external hardware programmer to pull the co
 * **Socket Adapter:** SOP16/SOIC-16 to DIP ZIF (Zero Insertion Force) clamshell socket adapter.
 * **Alignment:** Aligned Pin 1 (dot indicator on package) with the socket orientation markings and locked the clamshell retaining frame.
 
-![ST 25P16 Seated in T48 Clamshell Adapter](photos/PXL_20260818_200951384.jpg)
+![ST 25P16 Seated in T48 Clamshell Adapter](photos/SOIC16_T48_flash_read.jpg)
 
 ### Software Readout & Acquisition
 * **Software:** Xgpro Programmer Suite.
