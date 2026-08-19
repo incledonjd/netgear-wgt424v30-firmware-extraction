@@ -13,6 +13,20 @@ Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT
 
 ___
 
+## Table of Contents
+* **[Part 1: Hardware Reconnaissance & Acquisition](#part-1-hardware-reconnaissance--acquisition)**
+  * [1. Device Overview & Disassembly](#1-disassembly-process)
+  * [2. Integrated Circuit Identification](#2-integrated-circuit-ic-identification)
+  * [3. UART Serial Sniffing & Baud Rate Triage](#3-uart-serial-reconnaissance--baud-rate-triage)
+  * [4. Hot-Air Chip-Off & Flash Dumping](#4-hot-air-chip-off-extraction)
+  * [5. Buffer Padding Correction & Hashes](#6-buffer-padding-correction--cryptographic-verification)
+* **[Part 2: Static Binary Analysis & Reverse Engineering](#part-2-static-binary-analysis--reverse-engineering)**
+  * [1. Binwalk Extraction & Payload Carving](#)
+  * [2. Ghidra Architecture & Memory Mapping](#)
+  * [3. Web Server Analysis & Vulnerability Research](#)
+  
+  # Part 1: Device Dissassembly and Testing
+  
 ## 1. Disassembly
 
 1. Peeled back the four rubber feet on the bottom of the router and removed them to expose four Torx head screws.
