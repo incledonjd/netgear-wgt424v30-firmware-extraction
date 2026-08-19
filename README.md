@@ -77,7 +77,7 @@ Serial capture was performed using 'picocom' on Linux
 Connecting at standard 9600 baud (`picocom -b 9600 /dev/ttyUSB0`) and testing other non-standard rates produced severe framing errors and unreadable byte noise across the terminal buffer.
 
 ```bash
-picocom -b 9600 /dev/ttyUSB0
+picocom -b 9600 /dev/ttyUSB0```
 
 ![Connecting via 15200 Baud](photos/UART_console_15200.jpg)
 ![Connecting via 15200 Baud Error](photos/UART_console_15200_1.jpg)
