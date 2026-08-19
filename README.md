@@ -15,7 +15,11 @@ Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT
   * [5. Flash Memory Acquisition (XGecu T48 & Xgpro)](#5-flash-memory-acquisition-xgecu-t48--xgpro)
     * [Hardware Programmer Interfacing](#hardware-programmer-interfacing)
     * [Software Readout & Acquisition](#software-readout--acquisition)
-  
+* [Part 2: Firmware Extraction & Static Analysis](#part-2-firmware-extraction--static-analysis)
+  * [1. Flash Layout & Entropy Analysis](#1-flash-layout--entropy-analysis)
+  * [2. Kernel Extraction](#2-kernel-extraction)
+  * [3. Ghidra Setup & Architecture Configuration](#3-ghidra-setup--architecture-configuration)
+  * [4. Disassembly & Decompilation](#4-disassembly--decompilation)
   
 
 # Device Specifications and Overview
@@ -140,3 +144,76 @@ The extracted chip was read using an external hardware programmer to pull the co
 ![Xgpro Software Flash Readout Buffer](photos/xgpro_firmware.jpg)
 
 ___
+
+# Part 2: Firmware Extraction & Static Analysis
+
+With a verified 2MB flash dump (`wgt624v3_clean.bin`), the next step was analyzing the flash layout, carving out the compressed operating system, and loading the kernel into Ghidra for static analysis.
+
+---
+
+## 1. Flash Layout & Entropy Analysis
+
+To see how data was laid out across the physical flash chip, I generated an entropy graph of the full 2MB image:
+
+```bash
+binwalk -E wgt624v3_clean.bin
+```
+
+![Firmware Entropy Graph](photos/binwalk_entropy.png)
+
+The graph shows three distinct regions:
+* **`0x000000` – `0x006A30` (~0.33 to 0.65):** Uncompressed code and readable strings representing the router's bootloader.
+* **`0x006A31` onward (~0.98):** A sharp vertical spike indicating compressed data where the main VxWorks operating system payload sits.
+* **Drops to 0.0:** Empty padding areas between flash partitions containing repeated `0xFF` or `0x00` bytes.
+
+---
+
+## 2. Kernel Extraction
+
+Scanning the flash image with `binwalk` identified the exact compression format and file offset:
+
+```bash
+binwalk wgt624v3_clean.bin
+```
+
+```text
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+27185         0x6A31          Zlib compressed data, default compression
+```
+
+I extracted and decompressed the payload located at offset `0x6A31` (`27185` decimal):
+
+```bash
+binwalk -e wgt624v3_clean.bin
+cd _wgt624v3_clean.bin.extracted/
+ls -lh 6a31
+```
+
+This produced `6a31`, the uncompressed 32-bit MIPS kernel image (~556 KB).
+
+---
+
+## 3. Ghidra Setup & Architecture Configuration
+
+Because `6a31` is a raw memory dump without file headers, I manually configured the architecture and memory layout during import:
+
+* **Format:** Raw Binary
+* **Language:** `MIPS:BE:32:default` (32-bit Big-Endian for the Atheros AR2316 SoC)
+* **Base Address:** `80001000` (Standard MIPS RAM load address for VxWorks)
+
+![Ghidra Import Options](photos/ghidra_import_options.png)
+
+---
+
+## 4. Disassembly & Decompilation
+
+Once imported into Ghidra's CodeBrowser:
+
+1. Jumped to the entry address `0x80001000`.
+2. Disassembled the raw bytes into MIPS assembly instructions.
+3. Ran the Auto-Analyzer with **MIPS Constant Reference Analyzer** and **Decompiler Parameter ID** enabled to resolve global pointers and populate the function tree.
+
+![Ghidra Decompiled View](photos/ghidra_decompiled_view.png)
+
+Ghidra populated the symbol tree with identified functions and generated decompiled C code in the Decompiler window, displaying local stack buffers, variable assignments, and function dispatch logic.
