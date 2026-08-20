@@ -112,7 +112,7 @@ picocom -b 9600 /dev/ttyUSB0
 
 ## 4. Hot-Air Chip-Off Extraction
 
-Because serial UART access was limited to a one-way logging channel, physical flash extraction was used to acquire the raw firmware image directly.
+Since the UART port only spit out boot logs and didn't give an interactive shell, I pulled the flash chip off the board to dump the firmware directly.
 
 ### Desoldering & Pad Cleaning Process
 1. Target Package: STMicroelectronics 25P16V6P (16-pin SOIC SPI NOR Flash).
