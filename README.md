@@ -1,4 +1,4 @@
-## netgear-wgt624v30-firmware-extraction
+## netgear-wgt624v3-firmware-extraction
 Hardware extraction, UART reconnaissance, and flash dump triage on a Netgear WGT624v3 router
 
 ## Table of Contents
