@@ -115,9 +115,9 @@ picocom -b 9600 /dev/ttyUSB0
 Since the UART port only spit out boot logs and didn't give an interactive shell, I pulled the flash chip off the board to dump the firmware directly.
 
 ### Desoldering & Pad Cleaning Process
-1. Target Package: STMicroelectronics 25P16V6P (16-pin SOIC SPI NOR Flash).
-2. Technique: Applied flux across both banks of 8 pins. Used a hot air rework station with circular airflow to heat all 16 leads evenly until solder liquified, lifted the chip vertically with tweezers to avoid damaging traces.
-3. Footprint Preparation:Cleaned remaining solder from the 16 surface-mount pads using 99% isopropyl alcohol, checking no short circuits or solder bridges remained on the PCB.
+1. Flash Chip: STMicroelectronics 25P16V6P (16-pin SOIC SPI NOR Flash).
+2. Process: Applied flux across both banks of 8 pins. Used a hot air rework station with circular airflow to heat all 16 leads evenly until solder liquified, lifted the chip vertically with tweezers to avoid damaging traces.
+3. After Care: Cleaned remaining solder from the 16 surface-mount pads using 99% isopropyl alcohol, checking no short circuits or solder bridges remained on the PCB.
 
 ![Board and Desoldered Flash Chip](photos/SOIC16_removed_1.jpg)
 ![Desoldered ST 25P16V6P Flash Chip](photos/SOIC16_removed_2.jpg)
